@@ -91,8 +91,7 @@ class UserSeeder extends Seeder {
 			return [
 				'first_name' => $data[ 0 ] ?? '',
 				'last_name'  => $data[ 1 ] ?? '',
-				'suffix'     => $data[ 2 ] ?? '',
-				'gender'     => $data[ 3 ] ?? '',
+				'gender'     => $data[ 2 ] ?? '',
 			];
 		}, $lines);
 
