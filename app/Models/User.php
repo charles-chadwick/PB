@@ -62,10 +62,11 @@ class User extends Base implements AuthenticatableContract, AuthorizableContract
 		parent::__construct($attributes);
 	}
 
-	/**
-	 * @throws Exception
-	 */
 	public function profile() {
 		return $this->hasOne(Profile::class, "patient_id", "id");
+	}
+
+	public function icd10Codes() {
+		return $this->hasMany(ICD10Code::class, "icd10_code_id", "id");
 	}
 }
