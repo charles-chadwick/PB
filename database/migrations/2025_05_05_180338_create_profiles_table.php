@@ -13,7 +13,7 @@ return new class extends Migration {
 
 		Schema::create('profiles', function ( Blueprint $table ) {
 			$table->id();
-			$table->integer('patient_id');
+			$table->integer('patient_id')->comment("References users.id");
 			$table->date('dob');
 			$table->string('gender');
 			$table->unsignedBigInteger('created_by_id');

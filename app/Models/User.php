@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\UserRole;
+use Exception;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\MustVerifyEmail;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -60,6 +62,9 @@ class User extends Base implements AuthenticatableContract, AuthorizableContract
 		parent::__construct($attributes);
 	}
 
+	/**
+	 * @throws Exception
+	 */
 	public function profile() {
 		return $this->hasOne(Profile::class, "patient_id", "id");
 	}
