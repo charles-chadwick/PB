@@ -1,0 +1,7 @@
+#models:
+#    ICD10Code:
+#        code: string
+#        description: text
+#        relationships:
+#            belongsToMany: User
+#

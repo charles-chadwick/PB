@@ -1,0 +1,7 @@
+created:
+    - database/factories/ICD10CodeFactory.php
+    - database/migrations/2025_05_05_214853_create_i_c_d10_codes_table.php
+    - database/migrations/2025_05_05_214854_create_i_c_d10_code_user_table.php
+    - app/Models/ICD10Code.php
+models:
+    ICD10Code: { code: string, description: text, relationships: { belongsToMany: User } }
