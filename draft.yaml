@@ -1,7 +1,12 @@
 #models:
-#    ICD10Code:
-#        code: string
+#    Appointment:
+#        type: string
+#        status: string
+#        date_and_time: datetime
+#        length: integer
+#        title: string
 #        description: text
 #        relationships:
 #            belongsToMany: User
+#            belongsTo: Patient
 #

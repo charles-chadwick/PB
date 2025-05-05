@@ -1,7 +1,8 @@
 created:
-    - database/factories/ICD10CodeFactory.php
-    - database/migrations/2025_05_05_214853_create_i_c_d10_codes_table.php
-    - database/migrations/2025_05_05_214854_create_i_c_d10_code_user_table.php
-    - app/Models/ICD10Code.php
+    - database/factories/AppointmentFactory.php
+    - database/migrations/2025_05_05_220759_create_appointments_table.php
+    - database/migrations/2025_05_05_220800_create_appointment_user_table.php
+    - app/Models/Appointment.php
 models:
     ICD10Code: { code: string, description: text, relationships: { belongsToMany: User } }
+    Appointment: { type: string, status: string, date_and_time: datetime, length: integer, title: string, description: text, relationships: { belongsToMany: User, belongsTo: Patient } }
