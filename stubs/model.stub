@@ -1,0 +1,35 @@
+<?php
+
+namespace {{ namespace }};
+
+class {{ class }} extends Base
+{
+	/**
+	 * The attributes that are mass assignable.
+	 *
+	 * @var array
+	 */
+	protected $fillable = [
+
+	];
+
+	/**
+	 * Get the attributes that should be cast.
+	 *
+	 * @return array<string, string>
+	 */
+	protected function casts() : array {
+		return [
+			'id'  => 'integer'
+		];
+	}
+
+    /**
+     * Constructor
+     *
+     * @param  array  $attributes
+     */
+    public function __construct( array $attributes = [] ) {
+        parent::__construct($attributes);
+    }
+}
