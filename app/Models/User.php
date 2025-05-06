@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\UserRole;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Exception;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\MustVerifyEmail;
@@ -45,6 +46,10 @@ class User extends Base implements AuthenticatableContract, AuthorizableContract
 		'remember_token',
 	];
 
+	protected $appends = [
+		"full_name"
+	];
+
 	/**
 	 * Get the attributes that should be cast.
 	 *
@@ -67,6 +72,11 @@ class User extends Base implements AuthenticatableContract, AuthorizableContract
 		parent::__construct($attributes);
 	}
 
+	protected function fullName() : Attribute {
+		return Attribute::make(
+			get: fn($value, $attributes) => $attributes['first_name'] . ' ' . $attributes['last_name'],
+		);
+	}
 	/**
 	 * @param  Builder  $query
 	 * @return void
