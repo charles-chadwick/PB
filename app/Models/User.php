@@ -10,6 +10,8 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\Access\Authorizable;
@@ -64,33 +66,40 @@ class User extends Base implements AuthenticatableContract, AuthorizableContract
 		parent::__construct($attributes);
 	}
 
-
 	/**
-	 * @return User
+	 * @param  Builder  $query
+	 * @return void
 	 */
-	public function scopePatient() : User {
-		return $this->where("role", UserRole::Patient);
+	#[Scope]
+	protected function patient(Builder $query): void {
+		$query->where("role", UserRole::Patient);
 	}
 
 	/**
-	 * @return User
+	 * @param  Builder  $query
+	 * @return void
 	 */
-	public function scopeStaff() : User {
-		return $this->where("role", UserRole::Staff);
+	#[Scope]
+	protected function doctor(Builder $query): void {
+		$query->where("role", UserRole::Doctor);
 	}
 
 	/**
-	 * @return User
+	 * @param  Builder  $query
+	 * @return void
 	 */
-	public function scopeDoctor() : User {
-		return $this->where("role", UserRole::Doctor);
+	#[Scope]
+	protected function nurse(Builder $query): void {
+		$query->where("role", UserRole::Nurse);
 	}
 
 	/**
-	 * @return User
+	 * @param  Builder  $query
+	 * @return void
 	 */
-	public function scopeNurse() : User {
-		return $this->where("role", UserRole::Nurse);
+	#[Scope]
+	protected function staff(Builder $query): void {
+		$query->where("role", UserRole::Staff);
 	}
 
 	/**
@@ -100,6 +109,9 @@ class User extends Base implements AuthenticatableContract, AuthorizableContract
 		return $this->hasOne(Profile::class, "patient_id", "id");
 	}
 
+	/**
+	 * @return HasMany
+	 */
 	public function appointments() : HasMany {
 		return $this->HasMany(Appointment::class, "patient_id", "id");
 	}
@@ -107,7 +119,7 @@ class User extends Base implements AuthenticatableContract, AuthorizableContract
 	/**
 	 * @return HasMany
 	 */
-	public function icd10Codes() : HasMany {
-		return $this->hasMany(ICD10Code::class, "icd10_code_id", "id");
+	public function diagnosticCodes() : HasMany {
+		return $this->hasMany(DiagnosticCode::class, "icd10_code_id", "id");
 	}
 }
