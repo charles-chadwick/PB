@@ -64,11 +64,33 @@ class User extends Base implements AuthenticatableContract, AuthorizableContract
 		parent::__construct($attributes);
 	}
 
+
 	/**
-	 * @return mixed
+	 * @return User
 	 */
-	public function scopePatient() : mixed {
+	public function scopePatient() : User {
 		return $this->where("role", UserRole::Patient);
+	}
+
+	/**
+	 * @return User
+	 */
+	public function scopeStaff() : User {
+		return $this->where("role", UserRole::Staff);
+	}
+
+	/**
+	 * @return User
+	 */
+	public function scopeDoctor() : User {
+		return $this->where("role", UserRole::Doctor);
+	}
+
+	/**
+	 * @return User
+	 */
+	public function scopeNurse() : User {
+		return $this->where("role", UserRole::Nurse);
 	}
 
 	/**
