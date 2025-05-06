@@ -6,14 +6,14 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class ICD10Seeder extends Seeder {
+class DiagnosticCodeSeeder extends Seeder {
 	/**
 	 * Run the database seeds.
 	 */
 	public function run() : void {
-		DB::table("icd10_codes")
+		DB::table("diagnostic_codes")
 		  ->delete();
-		DB::table("patient_icd10_codes")
+		DB::table("patient_diagnostic_codes")
 		  ->delete();
 
 		$counter = 0;
@@ -21,7 +21,7 @@ class ICD10Seeder extends Seeder {
 		foreach ( $this->icd10List() as $icd10 ) {
 
 			if ( $counter === 1000 ) {
-				DB::table("icd10_codes")
+				DB::table("diagnostic_codes")
 				  ->insert($codes);
 				$codes = [];
 				$counter = 0;

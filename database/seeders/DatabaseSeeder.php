@@ -3,19 +3,18 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
-{
-    /**
-     * Seed the application's database.
-     */
-    public function run(): void
-    {
-		// (new UserSeeder())->run();
-		// (new ICD10Seeder())->run();
-		(new AppointmentSeeder())->run();
+class DatabaseSeeder extends Seeder {
+	/**
+	 * Seed the application's database.
+	 */
+	public function run() : void {
+		( new UserSeeder() )->run();
+		( new DiagnosticCodeSeeder() )->run();
+		( new AppointmentSeeder() )->run();
 
-    }
+	}
 }

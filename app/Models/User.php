@@ -12,6 +12,7 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\Access\Authorizable;
@@ -117,9 +118,9 @@ class User extends Base implements AuthenticatableContract, AuthorizableContract
 	}
 
 	/**
-	 * @return HasMany
+	 * @return BelongsToMany
 	 */
-	public function diagnosticCodes() : HasMany {
-		return $this->hasMany(DiagnosticCode::class, "icd10_code_id", "id");
+	public function diagnoses() : BelongsToMany {
+		return $this->belongsToMany(User::class, "patient_diagnostic_codes", "patient_id", "diagnostic_code_id");
 	}
 }

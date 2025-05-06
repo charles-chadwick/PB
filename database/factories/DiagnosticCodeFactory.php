@@ -4,16 +4,16 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-use App\Models\ICD10Code;
+use App\Models\DiagnosticCode;
 
-class ICD10CodeFactory extends Factory
+class DiagnosticCodeFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = ICD10Code::class;
+    protected $model = DiagnosticCode::class;
 
     /**
      * Define the model's default state.

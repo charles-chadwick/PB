@@ -6,10 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class ICD10Code extends Base
+class DiagnosticCode extends Base
 {
-	protected $table = "icd10_codes";
-
     /**
      * The attributes that are mass assignable.
      *
@@ -43,6 +41,6 @@ class ICD10Code extends Base
 
     public function patients(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, "patient_icd10_codes", "icd10_code_id", "patient_id");
+        return $this->belongsToMany(User::class, "patient_diagnostic_codes", "diagnostic_code_id", "patient_id");
     }
 }

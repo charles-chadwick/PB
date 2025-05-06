@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('patient_icd10_codes', function (Blueprint $table) {
-			$table->id();
-            $table->unsignedBigInteger('icd10_code_id');
-            $table->unsignedBigInteger('patient_id');
+        Schema::create('diagnostic_codes', function (Blueprint $table) {
+            $table->id();
+            $table->string('code');
+            $table->text('description');
             $table->unsignedBigInteger('created_by_id');
             $table->unsignedBigInteger('updated_by_id')->nullable();
             $table->unsignedBigInteger('deleted_by_id')->nullable();
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('patient_icd10_codes');
+        Schema::dropIfExists('diagnostic_codes');
     }
 };
