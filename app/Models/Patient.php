@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HasAvatar;
+use App\Models\Traits\HasNotes;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\MustVerifyEmail;
@@ -16,7 +18,7 @@ use Illuminate\Support\Carbon;
 
 class Patient extends Base implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract {
 	use Authenticatable, Authorizable, CanResetPassword, MustVerifyEmail;
-
+	use HasNotes, HasAvatar;
 	/**
 	 * The attributes that are mass assignable.
 	 *
