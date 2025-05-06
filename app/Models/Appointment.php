@@ -3,10 +3,13 @@
 namespace App\Models;
 
 use App\Enums\AppointmentStatus;
+use App\Models\Traits\HasNotes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Appointment extends Base {
+
+	use HasNotes;
 
 	/**
 	 * The attributes that are mass assignable.
@@ -41,10 +44,16 @@ class Appointment extends Base {
 		parent::__construct($attributes);
 	}
 
+	/**
+	 * @return BelongsToMany
+	 */
 	public function users() : BelongsToMany {
 		return $this->belongsToMany(User::class);
 	}
 
+	/**
+	 * @return BelongsTo
+	 */
 	public function patient() : BelongsTo {
 		return $this->belongsTo(User::class, "id", "patient_id");
 	}
