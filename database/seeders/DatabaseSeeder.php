@@ -15,5 +15,7 @@ class DatabaseSeeder extends Seeder
     {
 		// (new UserSeeder())->run();
 		// (new ICD10Seeder())->run();
+		(new AppointmentSeeder())->run();
+
     }
 }

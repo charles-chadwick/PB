@@ -10,6 +10,8 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 
 class User extends Base implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract {
@@ -62,11 +64,28 @@ class User extends Base implements AuthenticatableContract, AuthorizableContract
 		parent::__construct($attributes);
 	}
 
-	public function profile() {
+	/**
+	 * @return mixed
+	 */
+	public function scopePatient() : mixed {
+		return $this->where("role", UserRole::Patient);
+	}
+
+	/**
+	 * @return HasOne
+	 */
+	public function profile() : HasOne {
 		return $this->hasOne(Profile::class, "patient_id", "id");
 	}
 
-	public function icd10Codes() {
+	public function appointments() : HasMany {
+		return $this->HasMany(Appointment::class, "patient_id", "id");
+	}
+
+	/**
+	 * @return HasMany
+	 */
+	public function icd10Codes() : HasMany {
 		return $this->hasMany(ICD10Code::class, "icd10_code_id", "id");
 	}
 }
