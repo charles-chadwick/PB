@@ -11,11 +11,17 @@ return new class extends Migration {
 	public function up() : void {
 		Schema::disableForeignKeyConstraints();
 
-		Schema::create('profiles', function ( Blueprint $table ) {
+		Schema::create('patients', function ( Blueprint $table ) {
 			$table->id();
-			$table->integer('patient_id')->comment("References users.id");
+			$table->string('status');
 			$table->date('dob');
 			$table->string('gender');
+			$table->string('first_name');
+			$table->string('middle_name')
+				  ->nullable();
+			$table->string('last_name');
+			$table->string('email');
+			$table->string('password');
 			$table->unsignedBigInteger('created_by_id');
 			$table->unsignedBigInteger('updated_by_id')
 				  ->nullable();
@@ -23,6 +29,10 @@ return new class extends Migration {
 				  ->nullable();
 			$table->timestamps();
 			$table->softDeletes();
+			$table->timestamp('email_verified_at')
+				  ->nullable();
+			$table->string('remember_token', 100)
+				  ->nullable();
 		});
 
 		Schema::enableForeignKeyConstraints();
@@ -32,6 +42,6 @@ return new class extends Migration {
 	 * Reverse the migrations.
 	 */
 	public function down() : void {
-		Schema::dropIfExists('profiles');
+		Schema::dropIfExists('patients');
 	}
 };

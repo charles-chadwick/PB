@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Enums\UserRole;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\MustVerifyEmail;
@@ -10,11 +9,12 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
-use Illuminate\Database\Eloquent\Attributes\Scope;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\Access\Authorizable;
+use Illuminate\Support\Carbon;
 
-class User extends Base implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract {
+class Patient extends Base implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract {
 	use Authenticatable, Authorizable, CanResetPassword, MustVerifyEmail;
 
 	/**
@@ -23,10 +23,12 @@ class User extends Base implements AuthenticatableContract, AuthorizableContract
 	 * @var array
 	 */
 	protected $fillable = [
-		'role',
 		'first_name',
+		'middle_name',
 		'last_name',
 		'email',
+		'dob',
+		'gender',
 		'password',
 		'email_verified_at',
 	];
@@ -42,7 +44,8 @@ class User extends Base implements AuthenticatableContract, AuthorizableContract
 	];
 
 	protected $appends = [
-		"full_name"
+		"full_name",
+		"gender"
 	];
 
 	/**
@@ -55,6 +58,7 @@ class User extends Base implements AuthenticatableContract, AuthorizableContract
 			'id'                => 'integer',
 			'email_verified_at' => 'timestamp',
 			'password'          => 'string',
+			'gender'            => 'string',
 		];
 	}
 
@@ -67,36 +71,33 @@ class User extends Base implements AuthenticatableContract, AuthorizableContract
 		parent::__construct($attributes);
 	}
 
+	/**
+	 * @return Attribute
+	 */
 	protected function fullName() : Attribute {
-		return Attribute::make(
-			get: fn($value, $attributes) => $attributes['first_name'] . ' ' . $attributes['last_name'],
-		);
+		return Attribute::make(get: fn ( $value, $attributes ) => $attributes[ 'first_name' ].' '.
+																  $attributes[ 'last_name' ]);
 	}
 
 	/**
-	 * @param  Builder  $query
-	 * @return void
+	 * @return Attribute
 	 */
-	#[Scope]
-	protected function doctor(Builder $query): void {
-		$query->where("role", UserRole::Doctor);
+	public function dob() : Attribute {
+		return Attribute::make(get: fn ( $value ) => Carbon::parse($value)
+														   ->format('m/d/Y'));
 	}
 
 	/**
-	 * @param  Builder  $query
-	 * @return void
+	 * @return HasMany
 	 */
-	#[Scope]
-	protected function nurse(Builder $query): void {
-		$query->where("role", UserRole::Nurse);
+	public function appointments() : HasMany {
+		return $this->HasMany(Appointment::class, "patient_id", "id");
 	}
 
 	/**
-	 * @param  Builder  $query
-	 * @return void
+	 * @return BelongsToMany
 	 */
-	#[Scope]
-	protected function staff(Builder $query): void {
-		$query->where("role", UserRole::Staff);
+	public function diagnoses() : BelongsToMany {
+		return $this->belongsToMany(Patient::class, "patient_diagnostic_codes", "patient_id", "diagnostic_code_id");
 	}
 }

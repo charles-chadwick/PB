@@ -48,13 +48,13 @@ class Appointment extends Base {
 	 * @return BelongsToMany
 	 */
 	public function users() : BelongsToMany {
-		return $this->belongsToMany(User::class);
+		return $this->belongsToMany(User::class, "appointment_users", "appointment_id", "user_id");
 	}
 
 	/**
 	 * @return BelongsTo
 	 */
 	public function patient() : BelongsTo {
-		return $this->belongsTo(User::class, "id", "patient_id");
+		return $this->belongsTo(Patient::class, "id");
 	}
 }

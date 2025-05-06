@@ -5,6 +5,7 @@ namespace Database\Seeders;
 
 use App\Enums\AppointmentStatus;
 use App\Models\User;
+use App\Models\Patient;
 use App\Enums\UserRole;
 use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -26,10 +27,7 @@ class AppointmentSeeder extends Seeder {
 
 		$dialogue = $this->getCSV();
 
-		foreach (
-			User::patient()
-				->get() as $patient ) {
-
+		foreach ( Patient::all() as $patient ) {
 
 			// Start by getting the patients. Get a random number of appts for each pt.
 			for ( $i = 0 ; $i <= rand(3, 25) ; $i++ ) {
@@ -60,6 +58,7 @@ class AppointmentSeeder extends Seeder {
 
 				$appointment = $patient->appointments()
 									   ->create([
+										   "patient_id"    => $patient->id,
 										   "date_and_time" => $start_date,
 										   "length"        => fake()->randomElement([
 											   15,
