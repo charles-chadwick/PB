@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\UserRole;
+use App\Models\Traits\HasFiles;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Exception;
 use Illuminate\Auth\Authenticatable;
