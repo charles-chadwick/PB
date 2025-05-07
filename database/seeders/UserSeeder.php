@@ -29,7 +29,7 @@ class UserSeeder extends Seeder {
 		]);
 
 		$counter = 0;
-		foreach ( $this->characterList() as $character ) {
+		foreach ( DatabaseSeeder::characterList() as $character ) {
 			$email = str_replace(' ', '_',
 				strtolower("{$character['first_name']}.{$character['last_name']}@example.com"));
 
@@ -55,22 +55,5 @@ class UserSeeder extends Seeder {
 				"updated_at"    => $created_at,
 			]);
 		}
-	}
-
-	public function characterList() : array {
-
-		$lines = array_map('trim', file(database_path("src/simpsons-characters.csv")));
-		str_getcsv(array_shift($lines));
-
-		$characters = array_map(function ( $line ) {
-			$data = str_getcsv($line);
-			return [
-				'first_name' => $data[ 0 ] ?? '',
-				'last_name'  => $data[ 1 ] ?? '',
-				'gender'     => $data[ 2 ] ?? '',
-			];
-		}, $lines);
-
-		return $characters;
 	}
 }
