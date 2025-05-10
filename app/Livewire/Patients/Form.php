@@ -5,6 +5,7 @@ namespace App\Livewire\Patients;
 use App\Enums\Gender;
 use App\Enums\PatientStatus;
 use App\Models\Patient;
+use Carbon\Carbon;
 use Illuminate\View\View;
 use Livewire\Component;
 use Mary\Traits\Toast;
@@ -27,6 +28,9 @@ class Form extends Component {
 		if ( !is_null($patient->id) ) {
 			$this->patient = $patient;
 			$this->fill($patient);
+
+			# Ugly hack so proper format shows up in form
+			$this->dob = Carbon::parse($this->patient->dob)->format('m/d/Y');
 		}
 		else {
 			$this->patient = new Patient();
