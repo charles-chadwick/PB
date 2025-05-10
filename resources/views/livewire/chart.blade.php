@@ -8,7 +8,7 @@
             {{ $patient->full_name }} (#{{$patient->id}})
         </x-slot:title>
         <x-slot:subtitle>
-            DOB: {{ $patient->dob }}
+            DOB: {{ $patient->dob_short }}
         </x-slot:subtitle>
         <x-slot:middle class="!justify-end">
 

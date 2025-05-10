@@ -49,7 +49,7 @@ class Patient extends Base implements AuthenticatableContract, AuthorizableContr
 
 	protected $appends = [
 		"full_name",
-		'dob'
+		'dob_short'
 	];
 
 	/**
@@ -82,8 +82,11 @@ class Patient extends Base implements AuthenticatableContract, AuthorizableContr
 		return "$this->first_name $this->middle_name $this->last_name";
 	}
 
-	protected function getDobAttribute() : string {
-		return Carbon::parse($this->dob)->format("M d, Y");
+	/**
+	 * @return string
+	 */
+	protected function getDobShortAttribute() : string {
+		return Carbon::parse($this->dob)->format("m/d/Y");
 	}
 
 	/**
