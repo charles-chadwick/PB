@@ -26,6 +26,7 @@ class Patient extends Base implements AuthenticatableContract, AuthorizableContr
 	 * @var array
 	 */
 	protected $fillable = [
+		'status',
 		'first_name',
 		'middle_name',
 		'last_name',
@@ -48,6 +49,7 @@ class Patient extends Base implements AuthenticatableContract, AuthorizableContr
 
 	protected $appends = [
 		"full_name",
+		'dob'
 	];
 
 	/**
@@ -74,20 +76,14 @@ class Patient extends Base implements AuthenticatableContract, AuthorizableContr
 	}
 
 	/**
-	 * @return Attribute
+	 * @return string
 	 */
-	protected function fullName() : Attribute {
-		return Attribute::make(get: fn ( $value, $attributes ) => $attributes[ 'first_name' ].' '.
-																  $attributes[ 'middle_name' ].' '.
-																  $attributes[ 'last_name' ]);
+	protected function getFullNameAttribute() : string {
+		return "$this->first_name $this->middle_name $this->last_name";
 	}
 
-	/**
-	 * @return Attribute
-	 */
-	public function dob() : Attribute {
-		return Attribute::make(get: fn ( $value ) => Carbon::parse($value)
-														   ->format('m/d/Y'));
+	protected function getDobAttribute() : string {
+		return Carbon::parse($this->dob)->format("M d, Y");
 	}
 
 	/**
