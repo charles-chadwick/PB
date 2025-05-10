@@ -5,17 +5,7 @@
             separator
             progress-indicator
     >
-        <x-slot:middle class="!justify-end">
-            <div class="flex">
 
-
-            <x-input
-                    placeholder="Search..."
-                    wire:model.live.debounce="search"
-                    clearable
-                    icon="o-magnifying-glass"
-            /></div>
-        </x-slot:middle>
         <x-slot:actions>
             <x-dropdown>
                 <x-slot:trigger>

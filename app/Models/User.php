@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\UserRole;
+use App\Models\Traits\HasAvatar;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\MustVerifyEmail;
@@ -16,6 +17,7 @@ use Illuminate\Foundation\Auth\Access\Authorizable;
 
 class User extends Base implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract {
 	use Authenticatable, Authorizable, CanResetPassword, MustVerifyEmail;
+	use HasAvatar;
 
 	/**
 	 * The attributes that are mass assignable.
