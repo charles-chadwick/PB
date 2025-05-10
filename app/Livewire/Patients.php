@@ -16,10 +16,11 @@ class Patients extends Component {
 		"direction" => "asc"
 	];
 	public $sort_order = "asc";
+	public $addModal = false;
 
 	public function render() : View {
 
-		return view('livewire.patients', [
+		return view('livewire.patients.index', [
 			'patients' => $this->patients(),
 			'headers'  => $this->headers(),
 		]);

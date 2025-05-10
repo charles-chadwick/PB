@@ -3,6 +3,7 @@
 namespace App\Livewire\Patients;
 
 use App\Enums\Gender;
+use App\Enums\PatientStatus;
 use App\Models\Patient;
 use Illuminate\View\View;
 use Livewire\Component;
@@ -12,19 +13,23 @@ class Form extends Component {
 
 	use Toast;
 
-	public ?Patient $patient = null;
-	public          $first_name;
-	public          $middle_name;
-	public          $last_name;
-	public          $email;
-	public          $dob;
-	public          $gender;
-	public          $genders = null;
+	public ?Patient $patient     = null;
+	public          $first_name  = "";
+	public          $middle_name = "";
+	public          $last_name   = "";
+	public          $email       = "";
+	public          $dob         = "";
+	public          $gender      = "";
+	public          $genders     = null;
 
 	public function mount( ?Patient $patient = null ) : void {
-		$this->patient = $patient;
-		if ( !is_null($patient) ) {
+
+		if ( !is_null($patient->id) ) {
+			$this->patient = $patient;
 			$this->fill($patient);
+		}
+		else {
+			$this->patient = new Patient();
 		}
 		$this->genders = [
 			[
@@ -53,14 +58,20 @@ class Form extends Component {
 			'dob'         => 'required',
 		]);
 
-		if (is_null($this->patient)) {
-			$this->patient = Patient::create($this->all());
-			$this->success('Patient created.', position: 'toast-top toast-center', redirectTo: route('chart',
-				$this->patient));
-		} else {
-			$this->patient->update($this->all());
+		$patient_data = $this->all();
+		if ( !empty($this->patient) && !is_null($this->patient->id) ) {
+
+			$this->patient->update($patient_data);
 			$this->success('Patient saved.', position: 'toast-top toast-center', redirectTo: route('chart',
 				$this->patient));
+		}
+		else {
+			$patient_data[ 'status' ] = PatientStatus::Active;
+			$patient_data[ 'password' ] = bcrypt("password");
+			$this->patient = Patient::create($patient_data);
+			$this->success('Patient created.', position: 'toast-top toast-center', redirectTo: route('chart',
+				$this->patient));
+
 		}
 
 	}
