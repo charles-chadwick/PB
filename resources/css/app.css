@@ -10,7 +10,23 @@
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
+.mary-table-pagination {
+    button, span {
+        @apply text-xs border-none
+    }
 
+    button {
+        @apply cursor-pointer
+    }
+
+    span[aria-current="page"] > span {
+        @apply bg-base-content/5
+    }
+
+    button, span[aria-current="page"] > span, span[aria-disabled="true"] span {
+        @apply py-1 px-2
+    }
+}
 
 /**
     The lines above are intact.

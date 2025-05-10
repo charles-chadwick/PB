@@ -90,6 +90,13 @@ class Patient extends Base implements AuthenticatableContract, AuthorizableContr
 	}
 
 	/**
+	 * @return Attribute
+	 */
+	public function gender() : Attribute {
+		return Attribute::make(get: fn ( $value ) => $value);
+	}
+
+	/**
 	 * @return HasMany
 	 */
 	public function appointments() : HasMany {
