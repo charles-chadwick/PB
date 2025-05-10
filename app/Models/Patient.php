@@ -19,6 +19,7 @@ use Illuminate\Support\Carbon;
 class Patient extends Base implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract {
 	use Authenticatable, Authorizable, CanResetPassword, MustVerifyEmail;
 	use HasNotes, HasAvatar;
+
 	/**
 	 * The attributes that are mass assignable.
 	 *
@@ -47,7 +48,6 @@ class Patient extends Base implements AuthenticatableContract, AuthorizableContr
 
 	protected $appends = [
 		"full_name",
-		"gender"
 	];
 
 	/**
@@ -60,7 +60,7 @@ class Patient extends Base implements AuthenticatableContract, AuthorizableContr
 			'id'                => 'integer',
 			'email_verified_at' => 'timestamp',
 			'password'          => 'string',
-			'gender'            => 'string',
+			'dob'               => "datetime"
 		];
 	}
 
@@ -78,6 +78,7 @@ class Patient extends Base implements AuthenticatableContract, AuthorizableContr
 	 */
 	protected function fullName() : Attribute {
 		return Attribute::make(get: fn ( $value, $attributes ) => $attributes[ 'first_name' ].' '.
+																  $attributes[ 'middle_name' ].' '.
 																  $attributes[ 'last_name' ]);
 	}
 
@@ -87,13 +88,6 @@ class Patient extends Base implements AuthenticatableContract, AuthorizableContr
 	public function dob() : Attribute {
 		return Attribute::make(get: fn ( $value ) => Carbon::parse($value)
 														   ->format('m/d/Y'));
-	}
-
-	/**
-	 * @return Attribute
-	 */
-	public function gender() : Attribute {
-		return Attribute::make(get: fn ( $value ) => $value);
 	}
 
 	/**
