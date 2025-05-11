@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\AppointmentStatus;
 use App\Models\Traits\HasNotes;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -48,7 +49,7 @@ class Appointment extends Base {
 	 * @return BelongsToMany
 	 */
 	public function users() : BelongsToMany {
-		return $this->belongsToMany(User::class, "appointment_users", "appointment_id", "user_id");
+		return $this->belongsToMany(User::class, "appointments_users", "appointment_id", "user_id");
 	}
 
 	/**
@@ -56,5 +57,21 @@ class Appointment extends Base {
 	 */
 	public function patient() : BelongsTo {
 		return $this->belongsTo(Patient::class, "id");
+	}
+
+	public function getDateAttribute() : string {
+		return Carbon::parse($this->attributes[ 'date_and_time' ])
+					 ->format('m/d/Y');
+	}
+
+	public function getTimeAttribute() : string {
+		return Carbon::parse($this->attributes[ 'date_and_time' ])
+					 ->format('h:i');
+	}
+
+	public function getDateAndTimeRangeAttribute() : string {
+		$start = Carbon::parse($this->attributes[ 'date_and_time' ])->format('m/d/Y @ h:i A');
+		$end = Carbon::parse($this->attributes[ 'date_and_time' ])->addMinutes($this->length)->format('h:i A');
+		return "$start - $end";
 	}
 }

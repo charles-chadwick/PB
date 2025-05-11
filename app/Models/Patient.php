@@ -90,6 +90,13 @@ class Patient extends Base implements AuthenticatableContract, AuthorizableContr
 	}
 
 	/**
+	 * @return int
+	 */
+	protected function getAgeAttribute() : int {
+		return Carbon::parse($this->dob)->age;
+	}
+
+	/**
 	 * @return HasMany
 	 */
 	public function appointments() : HasMany {
